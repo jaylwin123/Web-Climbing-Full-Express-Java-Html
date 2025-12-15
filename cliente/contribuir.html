@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contribuir - JuanBoardManotas</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="style.css" rel="stylesheet">
+    <script src="main.js" defer></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand mb-0 h1" href="Index.html">Juan Board Manotas</a>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="form-box">
+                    <h2 class="section-title">Contribuir</h2>
+                    <p class="mb-4 text-muted">Ayúdanos a crecer la comunidad agregando nuevos spots.</p>
+                    
+                    <form id="form-agregar">
+                        <div class="mb-3">
+                            <label for="nuevo-nombre" class="form-label">Nombre del lugar</label>
+                            <input type="text" class="form-control" id="nuevo-nombre" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nuevo-ubicacion" class="form-label">Ubicación</label>
+                            <input type="text" class="form-control" id="nuevo-ubicacion" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nuevo-descripcion" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="nuevo-descripcion" rows="3" required></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="nuevo-imagen" class="form-label">Subir Imagen</label>
+                            <input type="file" class="form-control" id="nuevo-imagen" accept="image/*">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="nuevo-url" class="form-label">Nombre del archivo HTML</label>
+                            <input type="text" class="form-control" id="nuevo-url" placeholder="ej: lugar.html" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100 mt-3">Agregar Lugar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

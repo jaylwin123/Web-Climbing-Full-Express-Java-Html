@@ -1,0 +1,122 @@
+[
+    {
+        "nombre": "Valle de los Cóndores",
+        "ubicacion": "Maule, Chile",
+        "descripcion": "Escalada en basalto con gran variedad de rutas.",
+        "imagen": "https://th.bing.com/th/id/R.eacf98e1fe5b2e92ef19dce5a3824a71?rik=XxYpiQTYq7UHDw&riu=http%3a%2f%2foutdoors.cl%2fwp-content%2fuploads%2f2019%2f01%2fIMG_0775.jpg&ehk=ncS0aJ1f6%2bLFxwaztB7iRvXNAa9uiD1WOd9AFew6m2c%3d&risl=&pid=ImgRaw&r=0",
+        "url": "valle_condores.html",
+        "rutas": [
+            {
+                "nombre": "Colmillo del Diablo",
+                "grado": "7a",
+                "imagen": "condores_ruta1.jpg"
+            }
+        ]
+    },
+    {
+        "nombre": "Valle de las Arenas",
+        "ubicacion": "Región Metropolitana, Chile",
+        "descripcion": "Roca volcánica y rutas deportivas de distintos niveles.",
+        "imagen": "https://i.ytimg.com/vi/gUV2qwiofrw/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGGUgXShWMA8=&rs=AOn4CLDwT3F5gt2m-Aj61kqC1TfPCl2LeA",
+        "url": "valle_arenas.html",
+        "rutas": [
+            {
+                "nombre": "La Placa Negra",
+                "grado": "6c",
+                "imagen": "arenas_ruta1.jpg"
+            }
+        ]
+    },
+    {
+        "nombre": "Las Chilcas",
+        "ubicacion": "Valparaíso, Chile",
+        "descripcion": "Sector clásico con mucha variedad y buen acceso.",
+        "imagen": "https://tse4.mm.bing.net/th/id/OIP.CgrK56MF50TllhmMWhh5sAHaE9?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+        "url": "chilcas.html",
+        "rutas": [
+            {
+                "nombre": "La Vena Rota",
+                "grado": "7b",
+                "imagen": "chilcas_ruta1.jpg"
+            }
+        ]
+    },
+    {
+        "nombre": "Lo Curro",
+        "ubicacion": "Región Metropolitana, Chile",
+        "descripcion": "Rutas deportivas rápidas de acceder en Santiago.",
+        "imagen": "https://www.chileclimbers.cl/wp-content/uploads/2021/10/seba-lo-curro.jpg",
+        "url": "lo_curro.html",
+        "rutas": [
+            {
+                "nombre": "Placa del Curro",
+                "grado": "6b",
+                "imagen": "locurro_ruta1.jpg"
+            }
+        ]
+    },
+    {
+        "nombre": "Llifén",
+        "ubicacion": "Los Ríos, Chile",
+        "descripcion": "Escalada técnica en roca volcánica.",
+        "imagen": "https://venafutrono.cl/wp-content/uploads/2022/02/Caunahue-Futrono-3-1-1024x683.jpg",
+        "url": "llifen.html",
+        "rutas": [
+            {
+                "nombre": "La Cascada",
+                "grado": "6a+",
+                "imagen": "llifen_ruta1.jpg"
+            }
+        ]
+    },
+    {
+        "nombre": "Totoralillo",
+        "ubicacion": "Coquimbo, Chile",
+        "descripcion": "Granito firme con escalada junto al mar.",
+        "imagen": "https://surftotoralillo.cl/wp-content/uploads/2020/06/escalada5web.jpg",
+        "url": "totoralillo.html",
+        "rutas": [
+            {
+                "nombre": "Olas de Granito",
+                "grado": "6c+",
+                "imagen": "totoralillo_ruta1.jpg"
+            }
+        ]
+    },
+    {
+        "nombre": "Jurassic Park",
+        "ubicacion": "Cajón del Maipo, Chile",
+        "descripcion": "Roca de buena calidad y rutas variadas.",
+        "imagen": "https://dav.cl/wp-content/uploads/2024/05/Jurassic01-1024x682.jpg",
+        "url": "jurassic.html",
+        "rutas": [
+            {
+                "nombre": "T-Rex",
+                "grado": "7a+",
+                "imagen": "jurassic_ruta1.jpg"
+            }
+        ]
+    },
+    {
+        "nombre": "Santo Domingo",
+        "ubicacion": "Valparaíso, Chile",
+        "descripcion": "Rutas deportivas técnicas y bien equipadas.",
+        "imagen": "https://i.ytimg.com/vi/RXmb3YAiOGQ/maxresdefault.jpg",
+        "url": "santo_domingo.html",
+        "rutas": [
+            {
+                "nombre": "El Acantilado",
+                "grado": "6c",
+                "imagen": "santo_ruta1.jpg"
+            }
+        ]
+    },
+    {
+        "nombre": "Torrecillas",
+        "ubicacion": "Cajon del Maipo",
+        "descripcion": "Mas de 240 rutas de multilargo, eso si tiene 2 horas de proximidad.",
+        "imagen": "https://www.lacumbreonline.cl/media/magefan_blog/torrecillas_1.jpg",
+        "url": "torrecillas.html",
+        "rutas": []
+    }
+]
