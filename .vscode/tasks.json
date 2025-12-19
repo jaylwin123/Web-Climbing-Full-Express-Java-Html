@@ -1,0 +1,18 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "edit_server_js",
+			"type": "shell",
+			"command": "sed -i 's|// Ruta DELETE: Eliminar una ruta específica|// Ruta PUT: Editar una ruta específica\\napp.put(\"/api/lugares/:id/rutas/:rutaIndex\", (req, res) => {\\n    const idLugar = parseInt(req.params.id);\\n    const rutaIndex = parseInt(req.params.rutaIndex);\\n    const rutaActualizada = req.body;\\n\\n    fs.readFile(rutaArchivo, \"utf8\", (err, data) => {\\n        if (err) return res.status(500).json({ error: \"Error leyendo datos\" });\\n        \\n        let lugares = JSON.parse(data);\\n        \\n        if (!lugares[idLugar] || !lugares[idLugar].rutas || !lugares[idLugar].rutas[rutaIndex]) {\\n            return res.status(404).json({ error: \"Ruta no encontrada\" });\\n        }\\n\\n        // Actualizamos la ruta\\n        lugares[idLugar].rutas[rutaIndex] = rutaActualizada;\\n\\n        fs.writeFile(rutaArchivo, JSON.stringify(lugares, null, 4), (err) => {\\n            if (err) return res.status(500).json({ error: \"Error guardando cambios\" });\\n            res.json({ message: \"Ruta actualizada con éxito\", ruta: rutaActualizada });\\n        });\\n    });\\n});\\n\\n// Ruta DELETE: Eliminar una ruta específica|' c:\\Users\\juana\\Web_Escalada_Juan\\server.js",
+			"args": [
+				"c:\\Users\\juana\\Web_Escalada_Juan\\server.js",
+				"// Ruta DELETE: Eliminar una ruta específica",
+				"// Ruta PUT: Editar una ruta específica\napp.put('/api/lugares/:id/rutas/:rutaIndex', (req, res) => {\n    const idLugar = parseInt(req.params.id);\n    const rutaIndex = parseInt(req.params.rutaIndex);\n    const rutaActualizada = req.body;\n\n    fs.readFile(rutaArchivo, 'utf8', (err, data) => {\n        if (err) return res.status(500).json({ error: \"Error leyendo datos\" });\n        \n        let lugares = JSON.parse(data);\n        \n        if (!lugares[idLugar] || !lugares[idLugar].rutas || !lugares[idLugar].rutas[rutaIndex]) {\n            return res.status(404).json({ error: \"Ruta no encontrada\" });\n        }\n\n        // Actualizamos la ruta\n        lugares[idLugar].rutas[rutaIndex] = rutaActualizada;\n\n        fs.writeFile(rutaArchivo, JSON.stringify(lugares, null, 4), (err) => {\n            if (err) return res.status(500).json({ error: \"Error guardando cambios\" });\n            res.json({ message: \"Ruta actualizada con éxito\", ruta: rutaActualizada });\n        });\n    });\n});\n\n// Ruta DELETE: Eliminar una ruta específica"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "edit"
+		}
+	]
+}

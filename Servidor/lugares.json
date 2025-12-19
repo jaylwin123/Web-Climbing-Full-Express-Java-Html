@@ -19,13 +19,7 @@
         "descripcion": "Roca volcánica y rutas deportivas de distintos niveles.",
         "imagen": "https://i.ytimg.com/vi/gUV2qwiofrw/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGGUgXShWMA8=&rs=AOn4CLDwT3F5gt2m-Aj61kqC1TfPCl2LeA",
         "url": "valle_arenas.html",
-        "rutas": [
-            {
-                "nombre": "La Placa Negra",
-                "grado": "6c",
-                "imagen": "arenas_ruta1.jpg"
-            }
-        ]
+        "rutas": []
     },
     {
         "nombre": "Las Chilcas",
@@ -105,9 +99,15 @@
         "url": "santo_domingo.html",
         "rutas": [
             {
-                "nombre": "El Acantilado",
-                "grado": "6c",
-                "imagen": "santo_ruta1.jpg"
+                "nombre": "Duro pero no tan duro",
+                "descripcion": "Una plaza contiene varias rocas, entre uno de los boulders que pillamos estaba este, es un boulder regletero con pasos no tan complicados.",
+                "tipo": "boulder",
+                "grado": "V4",
+                "ubicacion": "33°37'39.6\"S 71°37'52.5\"W",
+                "flashed": true,
+                "media": [
+                    "https://res.cloudinary.com/dvaos2dvv/image/upload/v1766103487/web_escalada_juan/1766103486008-WhatsApp%20Image%202025-12-18%20at%2021.jpg"
+                ]
             }
         ]
     },

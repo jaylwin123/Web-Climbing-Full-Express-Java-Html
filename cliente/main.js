@@ -1,192 +1,144 @@
-const lista = document.getElementById('lista-lugares');
-const input_busqueda = document.getElementById('id-Buscador');
+const listaLugares = document.getElementById('lista-lugares');
+const searchInput = document.getElementById('id-Buscador');
 const btnVerMas = document.getElementById('btn-ver-mas');
-let lugaresEscalada = [];//Variable para guardar los datos del servidor
-let mostrarTodos = false;
-const CANTIDAD_INICIAL = 3;
+const formAgregar = document.getElementById('form-agregar');
 
-// Función para cargar los datos desde el servidor
-async function cargarLugares() {
-    if (!lista) return; // Si no hay lista (estamos en otra página), no hacemos nada
+let dbLugares = [];
+let showAll = false;
+const LIMIT = 3;
+
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+    fetchLugares();
+    setupListeners();
+});
+
+async function fetchLugares() {
+    if (!listaLugares) return;
 
     try {
-        const respuesta = await fetch('/api/lugares'); // Pedimos los datos al servidor
-        lugaresEscalada = await respuesta.json(); // Convertimos la respuesta a JSON
-        LugaresEscalada(lugaresEscalada); //Dibujamos la lista inicial
-    } catch (error) {
-        console.error("Error cargando lugares:", error);
+        const res = await fetch('/api/lugares');
+        dbLugares = await res.json();
+        renderLugares(dbLugares);
+    } catch (err) {
+        console.error("Error fetching data:", err);
     }
 }
 
-function LugaresEscalada(lugaresParaMostrar){
-    if (!lista) return;
-    
-    lista.innerHTML = '';
+function renderLugares(data) {
+    if (!listaLugares) return;
+    listaLugares.innerHTML = '';
 
-    const hayBusqueda = input_busqueda && input_busqueda.value.trim().length > 0;
-    let lugaresAVisualizar = lugaresParaMostrar;
+    const isSearching = searchInput && searchInput.value.trim().length > 0;
+    let items = data;
 
-    if (!hayBusqueda) {
-        if (!mostrarTodos) {
-            lugaresAVisualizar = lugaresParaMostrar.slice(0, CANTIDAD_INICIAL);
-        }
+    // Logic para el botón ver más
+    if (!isSearching) {
+        if (!showAll) items = data.slice(0, LIMIT);
         
-        if (lugaresParaMostrar.length > CANTIDAD_INICIAL && btnVerMas) {
-            btnVerMas.style.display = 'inline-block';
-            btnVerMas.textContent = mostrarTodos ? 'VER MENOS' : 'VER MÁS';
-        } else if (btnVerMas) {
-            btnVerMas.style.display = 'none';
+        if (btnVerMas) {
+            const shouldShowBtn = data.length > LIMIT;
+            btnVerMas.style.display = shouldShowBtn ? 'inline-block' : 'none';
+            if (shouldShowBtn) btnVerMas.textContent = showAll ? 'VER MENOS' : 'VER MÁS';
         }
     } else if (btnVerMas) {
         btnVerMas.style.display = 'none';
     }
 
-    lugaresAVisualizar.forEach(lugar => {
-        // Crear columna
-        const col = document.createElement('div');
-        col.className = 'col';
-
-        // Crear card
-        const card = document.createElement('div');
-        card.className = 'card';
-
-        // Imagen
-        const imagen = document.createElement('img');
-        imagen.src = lugar.imagen || 'https://via.placeholder.com/300x400?text=No+Image'; // Fallback si no hay imagen
-        imagen.className = 'card-img-top';
-        imagen.alt = lugar.nombre;
-        // El estilo de la imagen se maneja en CSS ahora
-
-        // Cuerpo de la card
-        const cardBody = document.createElement('div');
-        cardBody.className = 'card-body';
-
-        // Título
-        const titulo = document.createElement('h5');
-        titulo.className = 'card-title';
-        titulo.textContent = lugar.nombre;
-
-        // Ubicación (opcional, si quieres mostrarla)
-        const ubicacion = document.createElement('p');
-        ubicacion.className = 'card-text text-muted small';
-        ubicacion.textContent = lugar.ubicacion;
-
-        // Descripción
-        const descripcion = document.createElement('p');
-        descripcion.className = 'card-text';
-        descripcion.textContent = lugar.descripcion || '';
-
-        // Botón/Link
-        const link = document.createElement('a');
-        link.href = lugar.url;
-        link.className = 'btn btn-primary mt-auto';
-        link.textContent = 'VER DETALLES';
-
-        // Ensamblar
-        cardBody.appendChild(titulo);
-        cardBody.appendChild(ubicacion);
-        cardBody.appendChild(descripcion);
-        cardBody.appendChild(link);
-
-        card.appendChild(imagen);
-        card.appendChild(cardBody);
-
-        col.appendChild(card);
-        lista.appendChild(col);
-    });
-}
-
-if (btnVerMas) {
-    btnVerMas.addEventListener('click', () => {
-        mostrarTodos = !mostrarTodos;
-        LugaresEscalada(lugaresEscalada);
-    });
-}
-
-// Función para quitar tildes y pasar a minúsculas
-function normalizarTexto(texto) {
-    return texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    //tolowercase() Todo a minuzcula
-    //normalize("NFD") separar las letras de los acentos
-    //replace eliminamos los acentos sueltos
-}
-
-if (input_busqueda) {
-    input_busqueda.addEventListener('keyup', (evento) => {
-        //keyup, cada vex que el usuario suelte una tecla ejecuta el codigo que sigue abajo
-        const texto_busqueda = normalizarTexto(evento.target.value);
+    // Render cards
+    items.forEach(lugar => {
+        const realIndex = dbLugares.indexOf(lugar);
         
-        const lugaresFiltrados = lugaresEscalada.filter(lugar => {
-            return normalizarTexto(lugar.nombre).includes(texto_busqueda);
-        });
-
-        LugaresEscalada(lugaresFiltrados);
+        const cardHTML = `
+            <div class="col">
+                <div class="card">
+                    <img src="${lugar.imagen || 'https://via.placeholder.com/300x400?text=No+Image'}" class="card-img-top" alt="${lugar.nombre}">
+                    <div class="card-body">
+                        <h5 class="card-title">${lugar.nombre}</h5>
+                        <p class="card-text text-muted small">${lugar.ubicacion}</p>
+                        <p class="card-text">${lugar.descripcion || ''}</p>
+                        <a href="detalle.html?id=${realIndex}" class="btn btn-dark mt-auto">VER DETALLES</a>
+                    </div>
+                </div>
+            </div>
+        `;
+        listaLugares.insertAdjacentHTML('beforeend', cardHTML);
     });
 }
 
-// Lógica para agregar nuevo lugar
-const formAgregar = document.getElementById('form-agregar');
+function setupListeners() {
+    // Toggle ver más
+    if (btnVerMas) {
+        btnVerMas.addEventListener('click', () => {
+            showAll = !showAll;
+            renderLugares(dbLugares);
+        });
+    }
 
-if (formAgregar) {
-    formAgregar.addEventListener('submit', async (evento) => {
-        evento.preventDefault(); // Evita que la página se recargue
+    // Search filter
+    if (searchInput) {
+        searchInput.addEventListener('keyup', (e) => {
+            const term = normalize(e.target.value);
+            const filtered = dbLugares.filter(l => normalize(l.nombre).includes(term));
+            renderLugares(filtered);
+        });
+    }
 
-        // 1. Primero subimos la imagen (si hay una seleccionada)
-        const inputImagen = document.getElementById('nuevo-imagen');
-        let rutaImagen = ''; // Por defecto vacía
+    // Form submit
+    if (formAgregar) {
+        formAgregar.addEventListener('submit', handleAddLugar);
+    }
+}
 
-        if (inputImagen.files.length > 0) {
-            const formData = new FormData();
-            formData.append('imagen', inputImagen.files[0]);
+async function handleAddLugar(e) {
+    e.preventDefault();
+    
+    const inputImg = document.getElementById('nuevo-imagen');
+    let imgPath = '';
 
-            try {
-                const respuestaImagen = await fetch('/api/subir-imagen', {
-                    method: 'POST',
-                    body: formData
-                });
-                const datosImagen = await respuestaImagen.json();
-                rutaImagen = datosImagen.ruta; // Guardamos la ruta que nos devolvió el servidor
-            } catch (error) {
-                console.error("Error subiendo imagen:", error);
-                alert("Error al subir la imagen");
-                return; // Detenemos todo si falla la imagen
-            }
-        }
-
-        // 2. Luego guardamos el lugar con la ruta de la imagen ya lista
-        const nuevoLugar = {
-            nombre: document.getElementById('nuevo-nombre').value,
-            ubicacion: document.getElementById('nuevo-ubicacion').value,
-            descripcion: document.getElementById('nuevo-descripcion').value,
-            imagen: rutaImagen, // Usamos la ruta del servidor
-            url: document.getElementById('nuevo-url').value,
-            rutas: [] 
-        };
+    // Upload image first if exists
+    if (inputImg.files.length > 0) {
+        const formData = new FormData();
+        formData.append('imagen', inputImg.files[0]);
 
         try {
-            const respuesta = await fetch('/api/lugares', {
-                method: 'POST',//Aquí especificamos que es un POST!
-                headers: {
-                    'Content-Type': 'application/json'//Avisamos que enviamos JSON
-                },
-                body: JSON.stringify(nuevoLugar)
-                //Convertimos el objeto a texto JSON
-            });
-
-            if (respuesta.ok) {
-                alert("¡Lugar agregado con éxito!");
-                formAgregar.reset(); // Limpiamos el formulario
-                if (typeof cargarLugares === 'function') {
-                    cargarLugares(); // Recargamos la lista para ver el nuevo lugar
-                }
-            } else {
-                alert("Error al agregar el lugar");
-            }
-        } catch (error) {
-            console.error("Error:", error);
+            const res = await fetch('/api/subir-imagen', { method: 'POST', body: formData });
+            const data = await res.json();
+            imgPath = data.ruta;
+        } catch (err) {
+            console.error(err);
+            alert("Falló la subida de imagen");
+            return;
         }
-    });
+    }
+
+    const payload = {
+        nombre: document.getElementById('nuevo-nombre').value,
+        ubicacion: document.getElementById('nuevo-ubicacion').value,
+        descripcion: document.getElementById('nuevo-descripcion').value,
+        imagen: imgPath,
+        url: document.getElementById('nuevo-url').value,
+        rutas: [] 
+    };
+
+    try {
+        const res = await fetch('/api/lugares', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+            alert("Lugar agregado!");
+            formAgregar.reset();
+            fetchLugares();
+        } else {
+            alert("Error guardando lugar");
+        }
+    } catch (err) {
+        console.error(err);
+    }
 }
 
-// Iniciamos la carga de datos
-cargarLugares();
+// Helper
+const normalize = (str) => str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");

@@ -133,7 +133,7 @@ body {
 }
 
 .btn-success {
-    background-color: #285634; /* Verde bosque */
+    background-color: #000; /* Negro */
     border: none;
     border-radius: 0;
     text-transform: uppercase;

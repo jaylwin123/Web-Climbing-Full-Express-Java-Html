@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Lugar - JuanBoardManotas</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    <link href="style.css" rel="stylesheet">
+    <script src="detalle.js" defer></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand mb-0 h1" href="Index.html">Juan Board Manotas</a>
+        </div>
+    </nav>
+
+    <div class="container mt-5" id="detalle-container">
+        <!-- El contenido se cargará dinámicamente aquí -->
+        <div class="text-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón Flotante para Agregar Ruta -->
+    <div class="container mt-4 mb-5 text-center">
+        <button type="button" onclick="resetForm()" class="btn btn-success btn-lg rounded-pill px-5 shadow" data-bs-toggle="modal" data-bs-target="#modalAgregarRuta">
+            + AGREGAR NUEVA RUTA / BOULDER
+        </button>
+    </div>
+
+    <!-- Modal para Agregar Ruta -->
+    <div class="modal fade" id="modalAgregarRuta" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title">Agregar Nueva Ruta</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-agregar-ruta">
+                        <input type="hidden" id="ruta-index">
+                        
+                        <!-- Tipo de Escalada -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Tipo de Escalada:</label>
+                            <div class="btn-group w-100" role="group">
+                                <input type="radio" class="btn-check" name="tipoRuta" id="tipo-ruta" value="ruta" checked>
+                                <label class="btn btn-outline-dark" for="tipo-ruta">🧗 Ruta (Deportiva)</label>
+
+                                <input type="radio" class="btn-check" name="tipoRuta" id="tipo-boulder" value="boulder">
+                                <label class="btn btn-outline-dark" for="tipo-boulder">🪨 Boulder</label>
+                            </div>
+                        </div>
+
+                        <!-- Nombre -->
+                        <div class="mb-3">
+                            <label for="ruta-nombre" class="form-label">Nombre de la Ruta:</label>
+                            <input type="text" class="form-control" id="ruta-nombre" required placeholder="Ej: El Diedro Mágico">
+                        </div>
+
+                        <!-- Descripción -->
+                        <div class="mb-3">
+                            <label for="ruta-descripcion" class="form-label">Descripción:</label>
+                            <textarea class="form-control" id="ruta-descripcion" rows="3" placeholder="Cuéntanos sobre la ruta..."></textarea>
+                        </div>
+
+                        <!-- Grado (Se llena dinámicamente) -->
+                        <div class="mb-3">
+                            <label for="ruta-grado" class="form-label">Grado de Dificultad:</label>
+                            <select class="form-select" id="ruta-grado" required>
+                                <!-- Opciones generadas por JS -->
+                            </select>
+                        </div>
+
+                        <!-- Ubicación (Google Maps) -->
+                        <div class="mb-3">
+                            <label for="ruta-ubicacion" class="form-label">Ubicación:</label>
+                            <input type="text" class="form-control" id="ruta-ubicacion" placeholder="Ej: Cajón del Maipo, Chile (Nombre o Coordenadas)">
+                            <div class="form-text">Ingresa el nombre del lugar o coordenadas para mostrar el mapa.</div>
+                        </div>
+
+                        <!-- Flasheado -->
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="ruta-flashed">
+                            <label class="form-check-label fw-bold" for="ruta-flashed">⚡ ¡FLASHEADO!</label>
+                            <div class="form-text">Marca esto si la encadenaste al primer intento.</div>
+                        </div>
+
+                        <!-- Archivos (Fotos/Videos) -->
+                        <div class="mb-3">
+                            <label for="ruta-media" class="form-label">Fotos o Videos:</label>
+                            <input class="form-control" type="file" id="ruta-media" multiple accept="image/*,video/*">
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-dark btn-lg">GUARDAR RUTA</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Ver Ruta Detalle -->
+    <div class="modal fade" id="modalVerRuta" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="row g-0">
+                        <!-- Columna Izquierda: Media (Carousel) -->
+                        <div class="col-lg-8 bg-light d-flex align-items-center justify-content-center" style="min-height: 500px;">
+                            <div id="ver-ruta-media" class="w-100">
+                                <!-- Carousel inyectado aquí -->
+                            </div>
+                        </div>
+                        <!-- Columna Derecha: Info -->
+                        <div class="col-lg-4 p-4 d-flex flex-column">
+                            <h2 id="ver-ruta-nombre" class="fw-bold mb-3">Nombre Ruta</h2>
+                            
+                            <div class="mb-4">
+                                <div id="ver-ruta-grado-container">
+                                    <!-- Grado y barra inyectados aquí -->
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <h5 class="fw-bold text-uppercase small text-muted">Ubicación</h5>
+                                <div id="ver-ruta-ubicacion">
+                                    <!-- Link o mapa -->
+                                </div>
+                            </div>
+
+                            <div class="mb-4 flex-grow-1">
+                                <h5 class="fw-bold text-uppercase small text-muted">Descripción</h5>
+                                <p id="ver-ruta-descripcion" class="text-muted">Sin descripción.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="bg-black text-white py-5 mt-5">
+        <div class="container">
+            <div class="border-top border-secondary pt-4 mt-4 text-center">
+                <p class="small text-secondary mb-0">Creado por Juan Aylwin V</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (Necesario para el Modal y Carrusel) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
